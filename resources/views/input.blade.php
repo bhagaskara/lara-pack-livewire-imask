@@ -4,37 +4,29 @@
 
 @script
     <script>
+        const ts = "{{ $thousandsSeparator }}";
+        const rx = "{{ $radix }}";
         const inputElement = document.getElementById('{{ $inputId }}');
 
         const currentValue = $wire.get('value');
         if (currentValue != null && currentValue !== '') {
-            const ts = "{{ $thousandsSeparator }}";
-            const rx = "{{ $radix }}";
-
-            let raw = currentValue.toString();
-
-            // Normalize all existing radix chars to dot (.) for processing
-            if (rx !== '.') {
-            raw = raw.replace(new RegExp('\\' + rx, 'g'), '.');
-            }
-
-            let [intPart, decPart] = raw.split('.');
+            let [intPart, decPart] = currentValue.toString().split('.');
             const sign = intPart.startsWith('-') ? '-' : '';
+            
             intPart = intPart.replace(/^-/, '').replace(/\D/g, '');
-
             if (ts) {
-            intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ts);
+                intPart = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ts);
             }
 
-            inputElement.value = sign + (decPart !== undefined && decPart !== ''
-            ? intPart + rx + decPart
-            : intPart);
+            inputElement.value = sign + (decPart !== undefined && decPart !== '' ?
+                intPart + rx + decPart :
+                intPart);
         }
 
         const masked = IMask(inputElement, {
             mask: {{ $mask }},
-            thousandsSeparator: "{{ $thousandsSeparator }}",
-            radix: "{{ $radix }}",
+            thousandsSeparator: ts,
+            radix: rx,
         });
 
         let debounceTimer;
