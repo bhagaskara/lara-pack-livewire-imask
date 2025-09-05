@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class Input extends Component
 {
-#[Modelable]
+    #[Modelable]
     public string | null $value = '';
 
     #[Locked]
