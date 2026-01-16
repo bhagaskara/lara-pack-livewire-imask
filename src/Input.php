@@ -20,6 +20,7 @@ class Input extends Component
     public string $thousandsSeparator = '.';
     public string $radix = ',';
     public int $debounceTime = 500;
+    public int $scale = 3;
     public $disabled = false;
 
     public function mount(): void

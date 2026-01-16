@@ -27,6 +27,7 @@
             mask: {{ $mask }},
             thousandsSeparator: ts,
             radix: rx,
+            scale: {{ $scale }},
         });
 
         let debounceTimer;
